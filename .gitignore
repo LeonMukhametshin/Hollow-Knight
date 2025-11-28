@@ -75,3 +75,5 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 .gitattributes
 .vsconfig
+Assets/_Project/Scripts/Player/OldCharacterInputController.cs
+Assets/_Project/Scripts/Player/OldCharacterInputController.cs.meta
