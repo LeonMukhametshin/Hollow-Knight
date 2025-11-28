@@ -5,12 +5,10 @@ namespace Player
     [RequireComponent(typeof(Rigidbody2D))]
     public class Character : MonoBehaviour, IControllable
     {
-        [SerializeField] private Rigidbody2D m_rigidbody;
-        [SerializeField] private float m_speed = 10;
-        [SerializeField] private float m_jumpForce = 12f;
+        [SerializeField] private PlayerMovementData m_movementData;
 
+        [SerializeField] private Rigidbody2D m_rigidbody;
         [SerializeField] private Transform m_groundCheckerPoint;
-        [SerializeField] private float m_checkGroundRadius = 0.4f;
         [SerializeField] private LayerMask m_groundMask;
 
         private Vector2 m_moveDirection;
@@ -35,7 +33,7 @@ namespace Player
         {
             if(m_isGrounded)
             {
-                m_rigidbody.linearVelocity = new Vector2(m_rigidbody.linearVelocity.x, m_jumpForce);
+                m_rigidbody.linearVelocity = new Vector2(m_rigidbody.linearVelocity.x, m_movementData.JumpForce);
             }
         }
 
@@ -46,10 +44,10 @@ namespace Player
 
         private void MoveInternal()
         {
-            m_rigidbody.linearVelocity = new Vector2(m_moveDirection.x * m_speed, m_rigidbody.linearVelocity.y);
+            m_rigidbody.linearVelocity = new Vector2(m_moveDirection.x * m_movementData.Speed, m_rigidbody.linearVelocity.y);
         }
 
         private bool IsOnTheGround() =>
-            Physics2D.OverlapCircle(m_groundCheckerPoint.position, m_checkGroundRadius, m_groundMask);
+            Physics2D.OverlapCircle(m_groundCheckerPoint.position, m_movementData.CheckGroundRadius, m_groundMask);
     }
 }

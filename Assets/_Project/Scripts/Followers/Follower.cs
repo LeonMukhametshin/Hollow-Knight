@@ -5,12 +5,13 @@ namespace Follower
     public abstract class Follower : MonoBehaviour
     {
         [SerializeField] private Transform m_targetTransform;
-        [SerializeField] private Vector3 m_offcet;
-        [SerializeField][Range(1, 10)] private float m_smoothing = 1.5f;
-
+        [SerializeField] private FollowerData m_data;
         protected void Move(float deltaTime)
         {
-            var nextPosition = Vector3.Lerp(transform.position, m_targetTransform.position + m_offcet, deltaTime * m_smoothing);
+            var nextPosition = Vector3.Lerp(
+                transform.position, 
+                m_targetTransform.position + m_data.Offset, 
+                deltaTime * m_data.Smoothing);
 
             transform.position = nextPosition;
         }
