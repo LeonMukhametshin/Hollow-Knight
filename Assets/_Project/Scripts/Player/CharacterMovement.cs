@@ -3,16 +3,18 @@ using UnityEngine;
 namespace Player
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class Character : MonoBehaviour, IControllable
+    public class CharacterMovement : MonoBehaviour, IControllable
     {
+        #region Fields
         [SerializeField] private PlayerMovementData m_movementData;
 
-        [SerializeField] private Rigidbody2D m_rigidbody;
         [SerializeField] private Transform m_groundCheckerPoint;
+        [SerializeField] private Rigidbody2D m_rigidbody;
         [SerializeField] private LayerMask m_groundMask;
 
         private Vector2 m_moveDirection;
-        private bool m_isGrounded;
+        private bool m_isGrounded = false;
+        #endregion
 
         private void OnValidate()
         {
