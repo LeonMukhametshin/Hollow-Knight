@@ -1,17 +1,13 @@
-using System;
 using UnityEngine;
 
 public class InputService : IInputService
 {
     private GameInput m_gameInput;
 
-    private Vector2 m_moveDirection;
-    private bool m_isRunning;
-    private bool m_jumpPressed;
-
-    public Vector2 MoveDirection => m_moveDirection;
-    public bool IsRunning => m_isRunning;
-    public bool JumpPressed => m_jumpPressed;
+    public Vector2 MoveDirection { get; private set; }
+    public bool IsRunning { get; private set; }
+    public bool JumpPressed { get; private set; }
+    public bool IsDash { get; private set; }
 
     public InputService()
     {
@@ -21,9 +17,10 @@ public class InputService : IInputService
 
     public void Update()
     {
-        m_moveDirection = m_gameInput.Gameplay.Movement.ReadValue<Vector2>();
+        MoveDirection = m_gameInput.Gameplay.Movement.ReadValue<Vector2>();
 
-        m_isRunning = m_gameInput.Gameplay.Run.IsPressed();
-        m_jumpPressed = m_gameInput.Gameplay.Jump.WasPressedThisFrame();
+        IsRunning = m_gameInput.Gameplay.Run.IsPressed();
+        JumpPressed = m_gameInput.Gameplay.Jump.WasPressedThisFrame();
+        IsDash = m_gameInput.Gameplay.Dash.WasPressedThisFrame();
     }
 }

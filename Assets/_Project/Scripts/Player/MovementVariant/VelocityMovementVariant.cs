@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class VelocityMovement : IMovement
+public class VelocityMovementVariant : IMovement
 {
     private bool m_canMove = true;
 

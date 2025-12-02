@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-namespace PlayerStateMachine
+﻿namespace PlayerStateMachine
 {
     public class PlayerStateRun : PlayerState
     {
@@ -15,19 +14,21 @@ namespace PlayerStateMachine
             if (!IsRunning)
             {
                 Fsm.SetState<PlayerStateWalk>();
-                return;
             }
 
             if (!HasMovementInput)
             {
                 Fsm.SetState<PlayerStateIdle>();
-                return;
             }
             
+            if(IsDash)
+            {
+                Fsm.SetState<PlayerStateDash>();
+            }
+
             if (JumpPressed)
             {
                 Fsm.SetState<PlayerStateJump>();
-                return;
             }
         }
 

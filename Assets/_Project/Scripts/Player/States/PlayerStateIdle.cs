@@ -13,7 +13,6 @@ namespace PlayerStateMachine
 
         public override void OnUpdate()
         {
-            Debug.Log("IDLE");
             if (MoveDirection.sqrMagnitude > 0.1f)
             {
                 if(IsRunning)
@@ -24,6 +23,11 @@ namespace PlayerStateMachine
                 {
                     Fsm.SetState<PlayerStateWalk>();
                 }
+            }
+
+            if(IsDash)
+            {
+                Fsm.SetState<PlayerStateDash>();
             }
 
             if(JumpPressed)

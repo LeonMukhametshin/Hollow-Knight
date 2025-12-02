@@ -10,6 +10,7 @@ namespace PlayerStateMachine
         protected Vector2 MoveDirection { get; private set; }
         protected bool JumpPressed { get; private set; }
         protected bool IsRunning { get; private set; }
+        protected bool IsDash { get; private set; }
 
         public PlayerState(FSM fsm, PlayerContext context) : base(fsm)
         {
@@ -19,7 +20,6 @@ namespace PlayerStateMachine
         public sealed override void Update()
         {
             UpdateCachedParameters();
-
             OnUpdate();
         }
 
@@ -33,6 +33,7 @@ namespace PlayerStateMachine
             MoveDirection = PlayerInput.MoveDirection;
             JumpPressed = PlayerInput.JumpPressed; 
             IsRunning = PlayerInput.IsRunning;
+            IsDash = PlayerInput.IsDash;
         }
 
         protected bool HasMovementInput => MoveDirection.sqrMagnitude > 0.1f;
