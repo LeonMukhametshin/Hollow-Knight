@@ -1,24 +1,40 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PlayerStateWalk : PlayerStateMovement
+namespace PlayerStateMachine
 {
-    public PlayerStateWalk(FSM fsm, Transform transform, float speed) : base(fsm, transform, speed) { }
-
-    public override void Update()
+    public class PlayerStateWalk : PlayerState
     {
-        Debug.Log($"Walk state UPDATE with speed: {Speed}");
+        private IMovement m_movement;
 
-        var inputDirection = ReadInput();
-
-        if (inputDirection.sqrMagnitude == 0f)
+        public PlayerStateWalk(FSM fsm, PlayerContext context, IMovement movement) : base(fsm, context)
         {
-            Fsm.SetState<PlayerStateIdle>();
-        }
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            Fsm.SetState<PlayerStateRun>();
+            m_movement = movement;
         }
 
-        Move(inputDirection);
+        public override void OnUpdate()
+        {
+            if (IsRunning)
+            {
+                Fsm.SetState<PlayerStateRun>();
+                return;
+            }
+
+            if (!HasMovementInput)
+            {
+                Fsm.SetState<PlayerStateIdle>();
+                return;
+            }
+
+            if (JumpPressed)
+            {
+                Fsm.SetState<PlayerStateJump>();
+                return;
+            }
+        } 
+
+        public override void OnFixedUpdate()
+        {
+            m_movement.Move(Context.Rigidbody, MoveDirection, Context.PlayerData.WalkSpeed);
+        }
     }
 }

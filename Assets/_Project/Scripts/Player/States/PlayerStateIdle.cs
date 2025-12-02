@@ -1,31 +1,35 @@
 using UnityEngine;
 
-public class PlayerStateIdle : FsmState
+namespace PlayerStateMachine
 {
-    public PlayerStateIdle(FSM fsm) : base(fsm) { }
-
-    public override void Enter()
+    public class PlayerStateIdle : PlayerState
     {
-        Debug.Log("Idle state ENTER");
-    }
+        public PlayerStateIdle(FSM fsm, PlayerContext context) : base(fsm, context) { }
 
-    public override void Exit()
-    {
-        Debug.Log("Idle state EXIT");
-    }
-
-    public override void Update()
-    {
-        Debug.Log("Idle state UPDATE");
-        if(Input.GetKey(KeyCode.LeftShift) && Input.GetAxis("Horizontal") != 0)
+        public override void Enter()
         {
-            Fsm.SetState<PlayerStateRun>();
-            return;
+            Context.Rigidbody.linearVelocity = new Vector2(0, Context.Rigidbody.linearVelocity.y);
         }
 
-        if(Input.GetAxis("Horizontal") != 0)
+        public override void OnUpdate()
         {
-            Fsm.SetState<PlayerStateWalk>();
+            Debug.Log("IDLE");
+            if (MoveDirection.sqrMagnitude > 0.1f)
+            {
+                if(IsRunning)
+                {
+                    Fsm.SetState<PlayerStateRun>();
+                }
+                else
+                {
+                    Fsm.SetState<PlayerStateWalk>();
+                }
+            }
+
+            if(JumpPressed)
+            {
+                Fsm.SetState<PlayerStateJump>();
+            }
         }
     }
 }

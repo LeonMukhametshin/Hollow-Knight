@@ -25,12 +25,17 @@ public class FSM
         {
             CurrentState?.Exit();
             CurrentState = newState;
-            CurrentState.Enter();
+            CurrentState?.Enter();
         }
     }
 
     public void Update()
     {
         CurrentState?.Update();
+    }
+
+    public void FixedUpdate()
+    {
+        CurrentState?.FixedUpdate();
     }
 }

@@ -6,6 +6,7 @@ namespace Follower
     {
         [SerializeField] private Transform m_targetTransform;
         [SerializeField] private FollowerData m_data;
+
         protected void Move(float deltaTime)
         {
             var nextPosition = Vector3.Lerp(
